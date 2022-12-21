@@ -1,7 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import './Profile.css';
+import PostDetail from './PostDetail.js';
+
 export default function Profile() {
   const [pic, setPic] = useState([]);
+  const [show, setShow] = useState(false);
+  const [posts, setPosts] = useState([]);
+
+  const toggleDetails = (posts) => {
+    if (show) {
+      setShow(false);
+    } else {
+      setShow(true);
+      setPosts(posts);
+    }
+  };
   useEffect(() => {
     fetch('http://localhost:5000/myposts', {
       headers: {
@@ -25,7 +38,7 @@ export default function Profile() {
         </div>
         {/* profile data */}
         <div className="profile-data">
-          <h1>{JSON.parse(localStorage.getItem("user")).name}</h1>
+          <h1>{JSON.parse(localStorage.getItem('user')).name}</h1>
           <div className="profile-info" style={{ display: 'flex' }}>
             <p>40 posts</p>
             <p>40 followers</p>
@@ -37,9 +50,20 @@ export default function Profile() {
       {/* gallery */}
       <div className="gallery">
         {pic.map((pics) => {
-          return <img key={pics._id} src={pics.photo} className="item" alt=""></img>;
+          return (
+            <img
+              key={pics._id}
+              src={pics.photo}
+              className="item"
+              alt=""
+              onClick={() => {
+                toggleDetails(pics);
+              }}
+            ></img>
+          );
         })}
       </div>
+      {show && <PostDetail item={posts} toggleDetails={toggleDetails}/>}
     </div>
   );
 }

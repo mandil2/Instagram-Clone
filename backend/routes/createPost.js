@@ -52,13 +52,15 @@ router.put('/like', requireLogin, (req, res) => {
     {
       new: true,
     }
-  ).exec((err, result) => {
-    if (err) {
-      return res.status(422).json({ error: err });
-    } else {
-      return res.json(result);
-    }
-  });
+  )
+    .populate('postedBy', '_id name')
+    .exec((err, result) => {
+      if (err) {
+        return res.status(422).json({ error: err });
+      } else {
+        return res.json(result);
+      }
+    });
 });
 
 router.put('/unlike', requireLogin, (req, res) => {
@@ -70,13 +72,15 @@ router.put('/unlike', requireLogin, (req, res) => {
     {
       new: true,
     }
-  ).exec((err, result) => {
-    if (err) {
-      return res.status(422).json({ error: err });
-    } else {
-      return res.json(result);
-    }
-  });
+  )
+    .populate('postedBy', '_id name')
+    .exec((err, result) => {
+      if (err) {
+        return res.status(422).json({ error: err });
+      } else {
+        return res.json(result);
+      }
+    });
 });
 
 router.put('/comment', requireLogin, (req, res) => {
@@ -124,6 +128,21 @@ router.delete('/deletePost/:postId', requireLogin, (req, res) => {
             console.log(err);
           });
       }
+    });
+});
+
+// to show following posts
+router.get('/myfollowingpost', requireLogin, (req, res) => {
+  POST.find({
+    postedBy: {
+      $in: req.user.following,
+    },
+  })
+    .populate('postedBy', '_id name')
+    .populate('comments.postedBy', '_id name ')
+    .then((posts) => res.json(posts))
+    .catch((err) => {
+      console.log(err);
     });
 });
 module.exports = router;

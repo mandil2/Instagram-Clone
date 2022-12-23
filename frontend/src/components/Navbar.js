@@ -17,6 +17,12 @@ export default function Navbar({ login }) {
           <Link to="/createPost">
             <li>Create Post</li>
           </Link>
+          <Link
+            to="/followingpost"
+            style={{ marginLeft: '10px', marginRight: '10px' }}
+          >
+            My Following
+          </Link>
           <Link to={''}>
             <button
               className="primaryBtn"

@@ -3,7 +3,7 @@ import './Home.css';
 import { Link, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
-export default function Home() {
+export default function MyFollowingPost() {
   const navigate = useNavigate();
   const [data, setData] = useState([]);
   const [comment, setComment] = useState('');
@@ -21,7 +21,7 @@ export default function Home() {
     }
 
     // fetching all posts
-    fetch('http://localhost:5000/allposts', {
+    fetch('http://localhost:5000/myfollowingpost', {
       headers: {
         Authorization: 'Bearer ' + localStorage.getItem('jwt'),
       },

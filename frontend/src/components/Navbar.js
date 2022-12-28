@@ -3,8 +3,10 @@ import logo from '../img/logo.png';
 import './Navbar.css';
 import { Link } from 'react-router-dom';
 import { LoginContext } from '../context/LoginContext';
+import { useNavigate } from 'react-router-dom';
 
 export default function Navbar({ login }) {
+  const navigate = useNavigate();
   const { setModalOpen } = useContext(LoginContext);
   const loginStatus = () => {
     const token = localStorage.getItem('jwt');
@@ -51,7 +53,14 @@ export default function Navbar({ login }) {
 
   return (
     <div className="navbar">
-      <img src={logo} alt="Instagram" />
+      <img
+        src={logo}
+        alt="Instagram"
+        onClick={() => {
+          navigate('/');
+        }}
+        style={{cursor:"pointer"}}
+      />
       <ul className="nav-menu">{loginStatus()}</ul>
     </div>
   );

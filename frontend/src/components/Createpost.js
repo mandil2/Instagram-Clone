@@ -15,8 +15,8 @@ export default function Createpost() {
   const notifyB = (msg) => toast.success(msg);
 
   useEffect(() => {
+    // saving post to mongodb
     if (url) {
-      // saving post to mongodb
       fetch('http://localhost:5000/createPost', {
         method: 'post',
         headers: {

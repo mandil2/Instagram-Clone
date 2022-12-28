@@ -1,11 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import './Profile.css';
 import PostDetail from './PostDetail.js';
+import ProfilePic from './ProfilePic';
 
 export default function Profile() {
+  var picLink = 'https://cdn-icons-png.flaticon.com/128/3177/3177440.png';
   const [pic, setPic] = useState([]);
   const [show, setShow] = useState(false);
   const [posts, setPosts] = useState([]);
+  const [user, setUser] = useState('');
+  const [changePic, setChangePic] = useState(false);
 
   const toggleDetails = (posts) => {
     if (show) {
@@ -15,14 +19,31 @@ export default function Profile() {
       setPosts(posts);
     }
   };
+
+  const changeProfile = () => {
+    if (changePic) {
+      setChangePic(false);
+    } else {
+      setChangePic(true);
+    }
+  };
+
   useEffect(() => {
-    fetch('http://localhost:5000/myposts', {
-      headers: {
-        Authorization: 'Bearer ' + localStorage.getItem('jwt'),
-      },
-    })
+    fetch(
+      `http://localhost:5000/user/${
+        JSON.parse(localStorage.getItem('user'))._id
+      }`,
+      {
+        headers: {
+          Authorization: 'Bearer ' + localStorage.getItem('jwt'),
+        },
+      }
+    )
       .then((res) => res.json())
-      .then((result) => setPic(result));
+      .then((result) => {
+        setPic(result.post);
+        setUser(result.user);
+      });
   }, []);
 
   return (
@@ -32,7 +53,8 @@ export default function Profile() {
         {/* profile-pic */}
         <div className="profile-pic">
           <img
-            src="https://media.istockphoto.com/id/1368424494/photo/studio-portrait-of-a-cheerful-woman.jpg?s=612x612&w=is&k=20&c=S6Je1dyOxHNSMuE3mweAATneAAH9l3u9zdJqN8S0xxc="
+            onClick={changeProfile}
+            src={user.Photo ? user.Photo : picLink}
             alt=""
           />
         </div>
@@ -40,9 +62,9 @@ export default function Profile() {
         <div className="profile-data">
           <h1>{JSON.parse(localStorage.getItem('user')).name}</h1>
           <div className="profile-info" style={{ display: 'flex' }}>
-            <p>40 posts</p>
-            <p>40 followers</p>
-            <p>40 following</p>
+            <p>{pic ? pic.length : '0'} posts</p>
+            <p>{user.followers ? user.followers.length : '0'} followers</p>
+            <p>{user.following ? user.following.length : '0'} following</p>
           </div>
         </div>
       </div>
@@ -63,7 +85,8 @@ export default function Profile() {
           );
         })}
       </div>
-      {show && <PostDetail item={posts} toggleDetails={toggleDetails}/>}
+      {show && <PostDetail item={posts} toggleDetails={toggleDetails} />}
+      {changePic && <ProfilePic changeProfile={changeProfile} />}
     </div>
   );
 }

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import './Home.css';
+import '../css/Home.css';
 import { Link, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
@@ -21,7 +21,7 @@ export default function MyFollowingPost() {
     }
 
     // fetching all posts
-    fetch('http://localhost:5000/myfollowingpost', {
+    fetch('/myfollowingpost', {
       headers: {
         Authorization: 'Bearer ' + localStorage.getItem('jwt'),
       },
@@ -42,7 +42,7 @@ export default function MyFollowingPost() {
   };
 
   const likePost = (id) => {
-    fetch('http://localhost:5000/like', {
+    fetch('/like', {
       method: 'put',
       headers: {
         'Content-Type': 'application/json',
@@ -67,7 +67,7 @@ export default function MyFollowingPost() {
   };
 
   const unlikePost = (id) => {
-    fetch('http://localhost:5000/unlike', {
+    fetch('/unlike', {
       method: 'put',
       headers: {
         'Content-Type': 'application/json',
@@ -93,7 +93,7 @@ export default function MyFollowingPost() {
 
   //function to make comment
   const makeComment = (text, id) => {
-    fetch('http://localhost:5000/comment', {
+    fetch('/comment', {
       method: 'put',
       headers: {
         'Content-Type': 'application/json',

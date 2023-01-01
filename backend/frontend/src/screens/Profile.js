@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import './Profile.css';
-import PostDetail from './PostDetail.js';
-import ProfilePic from './ProfilePic';
+import '../css/Profile.css';
+import PostDetail from '../components/PostDetail.js';
+import ProfilePic from '../components/ProfilePic';
 
 export default function Profile() {
   var picLink = 'https://cdn-icons-png.flaticon.com/128/3177/3177440.png';
@@ -29,16 +29,11 @@ export default function Profile() {
   };
 
   useEffect(() => {
-    fetch(
-      `http://localhost:5000/user/${
-        JSON.parse(localStorage.getItem('user'))._id
-      }`,
-      {
-        headers: {
-          Authorization: 'Bearer ' + localStorage.getItem('jwt'),
-        },
-      }
-    )
+    fetch(`/user/${JSON.parse(localStorage.getItem('user'))._id}`, {
+      headers: {
+        Authorization: 'Bearer ' + localStorage.getItem('jwt'),
+      },
+    })
       .then((res) => res.json())
       .then((result) => {
         setPic(result.post);

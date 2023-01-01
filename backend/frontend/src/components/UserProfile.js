@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import './Profile.css';
+import '../css/Profile.css';
 // import PostDetail from './PostDetail.js';
 import { useParams } from 'react-router-dom';
 
@@ -13,7 +13,7 @@ export default function UserProfile() {
 
   //to follow user
   const followUser = (userId) => {
-    fetch('http://localhost:5000/follow', {
+    fetch('/follow', {
       method: 'put',
       headers: {
         'Content-type': 'application/json',
@@ -32,7 +32,7 @@ export default function UserProfile() {
 
   //to follow user
   const unfollowUser = (userId) => {
-    fetch('http://localhost:5000/unfollow', {
+    fetch('/unfollow', {
       method: 'put',
       headers: {
         'Content-type': 'application/json',
@@ -50,7 +50,7 @@ export default function UserProfile() {
   };
 
   useEffect(() => {
-    fetch(`http://localhost:5000/user/${userid}`, {
+    fetch(`/user/${userid}`, {
       headers: {
         Authorization: 'Bearer ' + localStorage.getItem('jwt'),
       },

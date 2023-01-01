@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import './Createpost.css';
+import '../css/Createpost.css';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 
@@ -17,7 +17,7 @@ export default function Createpost() {
   useEffect(() => {
     // saving post to mongodb
     if (url) {
-      fetch('http://localhost:5000/createPost', {
+      fetch('/createPost', {
         method: 'post',
         headers: {
           'Content-Type': 'application/json',

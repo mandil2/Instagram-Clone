@@ -1,5 +1,5 @@
 import React, { useState, useContext } from 'react';
-import './SignIn.css';
+import '../css/SignIn.css';
 import logo from '../img/logo.png';
 import { Link, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
@@ -25,7 +25,7 @@ export default function SignIn() {
     }
 
     //sending data to server
-    fetch('http://localhost:5000/signin', {
+    fetch('/signin', {
       method: 'post',
       headers: {
         'Content-Type': 'application/json',
